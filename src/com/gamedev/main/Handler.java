@@ -4,10 +4,16 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Handler {
-    LinkedList<GameObject> objects = new LinkedList<>();
+    private LinkedList<GameObject> objects = new LinkedList<>();
+    private Game game;
+
+    public Handler(Game game) {
+        this.game = game;
+    }
 
     public void tick() {
-        for (GameObject o: objects) {
+        LinkedList<GameObject> copy = (LinkedList<GameObject>)getObjectList().clone();
+        for (GameObject o: copy) {
             o.tick();
         }
     }
@@ -24,6 +30,10 @@ public class Handler {
 
     public LinkedList<GameObject> getObjectList() {
         return this.objects;
+    }
+
+    public Game getGame() {
+        return this.game;
     }
 
     public void removeObject(GameObject o) {

@@ -1,25 +1,39 @@
 package com.gamedev.main;
 
+import java.awt.*;
+
 public abstract class GameObject implements Updatable {
-    protected int x;
-    protected int y;
+    private int x;
+    private int y;
 
-    protected int velocityX;
-    protected int velocityY;
+    private int velocityX;
+    private int velocityY;
 
-    protected int width = 0;
-    protected int height = 0;
+    private int width = 0;
+    private int height = 0;
 
-    protected ID id;
+    private ID id;
 
-    public GameObject(int x, int y, final ID id) {
+    private final Color color;
+
+    private Handler handler;
+
+    public GameObject(int x, int y, int width, int height, final ID id, final Handler handler, final Color color) {
         this.x = x;
         this.y = y;
         this.id = id;
+        this.width = width;
+        this.height = height;
 
         this.velocityX = 0;
         this.velocityY = 0;
+
+        this.color = color;
+
+        this.handler = handler;
     }
+
+    public abstract Rectangle getBounds();
 
     public void setX(final int x) {
         this.x = x;
@@ -67,5 +81,13 @@ public abstract class GameObject implements Updatable {
 
     public int getHeight() {
         return this.height;
+    }
+
+    public Handler getHandler() {
+        return this.handler;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

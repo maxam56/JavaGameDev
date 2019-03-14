@@ -14,15 +14,21 @@ public class Game extends Canvas implements Runnable {
 
     private Handler handler;
     private HUD hud;
+    private Spawner spawner;
+
+    private final Player player;
 
     public Game() {
-        this.handler = new Handler();
+        this.handler = new Handler(this);
         new Window(this, WIDTH, HEIGHT, WINDOW_NAME);
         this.hud = new HUD();
-
+        this.spawner = new Spawner(handler);
         this.addKeyListener(new KeyInputs(handler));
-        handler.addObject(new Player(WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player));
-        handler.addObject(new BasicEnemy(WIDTH/2-16, HEIGHT/2 - 16, ID.BasicEnemy));
+
+        this.player = new Player(WIDTH/2 - 32, HEIGHT/2 - 32, ID.Player, handler);
+        handler.addObject(player);
+
+        handler.addObject(new BasicEnemy(WIDTH/2-16, HEIGHT/2 - 16, ID.BasicEnemy, handler));
     }
 
     public synchronized void start() {
@@ -71,6 +77,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
+        spawner.spawn();
         handler.tick();
         hud.tick();
     }
@@ -102,6 +109,13 @@ public class Game extends Canvas implements Runnable {
         return var;
     }
 
+    public HUD getHud() {
+        return this.hud;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 
     public static void main(String args[]) {
         Game game = new Game();
